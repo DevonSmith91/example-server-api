@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="resContainer">testing</h1>
+    <script>
+        let query = document.location.search
+
+
+        fetch("/check").then(res=>res.json())
+        .then(jsonObj => {
+            console.log(jsonObj)
+            console.log(query)
+
+            let parsedQuery = {}
+            let queryArray = query.split('&')
+            queryArray.forEach(keyValue => {
+                let pairArray = keyValue.split('=')
+                parsedQuery[pairArray[0]] = pairArray[1].split("+").join(" ")
+            })
+
+            console.log(parsedQuery)
+            if(parsedQuery["?name"] === jsonObj.name && parsedQuery.quest === jsonObj.quest && parsedQuery.color === jsonObj.color){
+                document.getElementById('resContainer').textContent = "Alrighty then. Off you goo.."
+            } else {
+                document.getElementById('resContainer').textContent = "INTO THE CHASM OF DOOM!"
+            }
+        })
+    </script>
+</body>
+</html>
